@@ -4,11 +4,14 @@
     "private": true,
     "scripts": {
         "start": "node dist/index",
-        "build" : "tsc -p .",
-        "dev" : "tsc-watch --onSuccess \"node dist/index.js\""
+        "build": "tsc -p .",
+        "dev": "tsc-watch --onSuccess \"node dist/index.js\""
     },
     "devDependencies": {
         "tsc-watch": "^6.0.4",
         "typescript": "^5.3.3"
+    },
+    "dependencies": {
+        "socket.io": "^4.7.4"
     }
 }
