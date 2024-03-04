@@ -1,13 +1,16 @@
-import http from 'http'
-import SocketService from './services/socket';
+import http from "http";
+import SocketService from "./services/socket";
 async function init() {
-const socketService = new SocketService();
+  const socketService = new SocketService();
 
-    const httpServer =http.createServer();
-    const PORT = process.env.PORT ? process.env.PORT : 8000;
+  const httpServer = http.createServer();
+  const PORT = process.env.PORT ? process.env.PORT : 8000;
 
-    socketService.io.attach(httpServer)
+  socketService.io.attach(httpServer);
 
-    httpServer.listen(PORT, ()=> console.log(`http server started at port : ${PORT} `));
+  httpServer.listen(PORT, () =>
+    console.log(`http server started at port : ${PORT} `)
+  );
+  socketService.initListeners();
 }
-init(); 
+init();
