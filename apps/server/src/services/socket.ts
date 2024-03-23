@@ -1,9 +1,14 @@
 import { Server } from "socket.io";
 import Redis from "ioredis";
+import { produceMessage } from "./kafka";
 import prismaClient from "./prisma";
+import kafka from "./kafka";
+import { log } from "console";
+import dotenv from "dotenv";
+dotenv.config();
 // here I have connected TO REDIS in a different way. check 40:00 in t1
-const RedisUri =
-  "rediss://default:AVNS_ge5RLFHFxeZgQopyIlt@redis-3f2ea483-darshanvsimson75-fd05.a.aivencloud.com:23984";
+// const RedisUri = env("DATABASE_URL");
+const RedisUri: string = process.env.REDIS_URI || "";
 const pub = new Redis(RedisUri);
 const sub = new Redis(RedisUri);
 
@@ -37,11 +42,8 @@ class SocketService {
     sub.on("message", async (channel, message) => {
       if (channel === "MESSAGES") {
         io.emit("message", message);
-        await prismaClient.message.create({
-          data: {
-            text: message,
-          },
-        });
+        await produceMessage(message);
+        console.log("Message produced to kafka broker service");
       }
     });
   }
