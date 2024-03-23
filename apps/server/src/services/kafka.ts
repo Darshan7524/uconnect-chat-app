@@ -1,6 +1,9 @@
 import { Kafka, Producer } from "kafkajs";
 import fs from "fs";
 import path from "path";
+import dotenv from "dotenv";
+dotenv.config();
+const Kafkapassword: string = process.env.KAFKAPASS || "";
 const kafka = new Kafka({
   brokers: ["kafka-2c12a74a-darshanvsimson75-fd05.a.aivencloud.com:23996"],
   ssl: {
@@ -8,8 +11,8 @@ const kafka = new Kafka({
   },
   sasl: {
     username: "avnadmin",
-    password: "AVNS_kR99yrTN4AReY-3u2f0",
-    mechanism: "plain",
+    password: Kafkapassword,
+    mechanism: "plain", // currently at 31 min
   },
 });
 let producer: Producer | null = null;
