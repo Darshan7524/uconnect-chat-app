@@ -1,5 +1,6 @@
 import { Server } from "socket.io";
 import Redis from "ioredis";
+import prismaClient from "./prisma";
 // here I have connected TO REDIS in a different way. check 40:00 in t1
 const RedisUri =
   "rediss://default:AVNS_ge5RLFHFxeZgQopyIlt@redis-3f2ea483-darshanvsimson75-fd05.a.aivencloud.com:23984";
@@ -33,9 +34,14 @@ class SocketService {
       });
     });
 
-    sub.on("message", (channel, message) => {
+    sub.on("message", async (channel, message) => {
       if (channel === "MESSAGES") {
         io.emit("message", message);
+        await prismaClient.message.create({
+          data: {
+            text: message,
+          },
+        });
       }
     });
   }
