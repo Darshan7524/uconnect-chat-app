@@ -1,9 +1,6 @@
 import { Server } from "socket.io";
 import Redis from "ioredis";
 import { produceMessage } from "./kafka";
-import prismaClient from "./prisma";
-import kafka from "./kafka";
-import { log } from "console";
 import dotenv from "dotenv";
 dotenv.config();
 // here I have connected TO REDIS in a different way. check 40:00 in t1
@@ -15,7 +12,7 @@ const sub = new Redis(RedisUri);
 class SocketService {
   private _io: Server;
   constructor() {
-    console.log("INit Socket Service....");
+    console.log("Init Socket Service....");
 
     this._io = new Server({
       cors: {
